@@ -16,6 +16,17 @@ namespace pingpong
 
         static void Main(string[] args)
         {
+            consoleCharacter Ball = new consoleCharacter(5,5, "╔═╗\n╚═╝");
+            string[] modes = new string[] { "1P vs. PC", "1P vs. 2P" };
+            string type = menu(new string[] { }, "Welcome to Terminal pingpong !!!\n select game modes :\n");
+            if (type == modes[0])
+            {
+
+            }
+            else
+            {
+
+            }
         }
 
 
@@ -81,8 +92,8 @@ namespace pingpong
     }
     public class consoleCharacter
     {
-        public int Top, Left;
-        public string Character;
+        public int Top=0, Left=0;
+        public string Character="";
         public consoleCharacter(int top,int left,string character)
         {
             Top = top;
