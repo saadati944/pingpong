@@ -15,8 +15,10 @@ namespace pingpong
         static consoleCharacter _player_1;
         static consoleCharacter _player_2;
         static int player1_score, player2_score;
+        static int Last_player1_score, Last_player2_score;
         static bool plater1winds = false;
         static int lastw, lasth;
+        static int last_scoreLength;
 
         //top left, top right, bottom left, bottom right. ╱╲┗┛┏┓╏╍
         static char[] boxedges ={ '┌', '┐', '└', '┘' };
@@ -46,19 +48,27 @@ namespace pingpong
             {
                 Draw();
                 System.Threading.Thread.Sleep(30);
+                player1_score = i / 20;
+                player2_score = i / 15;
             }
-            
+            lasth = Console.WindowHeight; lastw = Console.WindowWidth;
         }
         static void Draw()
         {
             doMoves();
-            drawBox();
-            writeMiddleofLine(0, string.Format("< {0} : {1} >", player1_score, player2_score));
+            if (lasth != Console.WindowHeight || lastw != Console.WindowWidth)
+            {
+                drawBox();
+                drawScoreboard(true) ;
+                lasth = Console.WindowHeight; lastw = Console.WindowWidth;
+            }
+            drawScoreboard();
             //drawCharacter(_player_1);
             //drawCharacter(_player_2);
             //drawCharacter(_ball);
             check();
         }
+        
         static void check()
         {
 
@@ -73,6 +83,30 @@ namespace pingpong
             _ball = new consoleCharacter(0, 0, "╔═╗\n╚═╝");
             _player_1 = new consoleCharacter(1, 1, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
             _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
+        }
+        static void drawScoreboard(bool forceWrite=false)
+        {
+            if (forceWrite)
+            {
+                string lscoreBoard = string.Format("< {0} : {1} >", player1_score, player2_score);
+                Last_player1_score = player1_score;
+                Last_player2_score = player2_score;
+                if (lscoreBoard.Length != last_scoreLength)
+                    writeMiddleofLine(0, stringMultiply(boxlines[1], last_scoreLength));
+                writeMiddleofLine(0, lscoreBoard);
+                last_scoreLength = lscoreBoard.Length;
+                return;
+            }
+            if (Last_player1_score == player1_score
+            && Last_player2_score == player2_score)
+                return;
+            string scoreBoard = string.Format("< {0} : {1} >", player1_score, player2_score);
+            Last_player1_score = player1_score;
+            Last_player2_score = player2_score;
+            if (scoreBoard.Length != last_scoreLength)
+                writeMiddleofLine(0, stringMultiply(boxlines[1], last_scoreLength));
+            writeMiddleofLine(0, scoreBoard);
+            last_scoreLength = scoreBoard.Length;
         }
         static void drawCharacter(consoleCharacter ch)
         {
@@ -104,7 +138,7 @@ namespace pingpong
             Box += boxedges[3];
             Console.SetCursorPosition(0, 0);
             Console.Write(Box);
-
+            Console.SetCursorPosition(0, 0);
         }
         static void writeMiddleofLine(int line, string text)
         {
