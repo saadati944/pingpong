@@ -9,7 +9,7 @@ namespace pingpong
     class Program
     {
         //variables :
-        static byte[,] buffer;
+        static bool autoMovePlayer2 = false;
         static consoleCharacter _ball;
         static consoleCharacter _player_1;
         static consoleCharacter _player_2;
@@ -25,10 +25,9 @@ namespace pingpong
             string type = menu(modes, "Welcome to Terminal pingpong !!!\n select game modes :\n");
             if (type == modes[0])
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
-            else if (type==modes[1])
-            {
-
-            }
+            else if (type == modes[1])
+                autoMovePlayer2 = true;
+            
         }
         static void assignCharacters()
         {
