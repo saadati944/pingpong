@@ -9,14 +9,18 @@ namespace pingpong
     class Program
     {
         //variables :
-        byte[,] buffer;
-        
+        static byte[,] buffer;
+        static consoleCharacter _ball;
+        static consoleCharacter _player_1;
+        static consoleCharacter _player_2;
+
+
 
 
 
         static void Main(string[] args)
         {
-            consoleCharacter Ball = new consoleCharacter(5,5, "╔═╗\n╚═╝");
+            assignCharacters();
             string[] modes = new string[] { "Exit","P1 vs. PC", "P1 vs. P2" };
             string type = menu(modes, "Welcome to Terminal pingpong !!!\n select game modes :\n");
             if (type == modes[0])
@@ -25,6 +29,11 @@ namespace pingpong
             {
 
             }
+        }
+        static void assignCharacters()
+        {
+            _ball = new consoleCharacter(5, 5, "╔═╗\n╚═╝");
+
         }
 
 
