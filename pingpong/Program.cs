@@ -17,13 +17,11 @@ namespace pingpong
         static void Main(string[] args)
         {
             consoleCharacter Ball = new consoleCharacter(5,5, "╔═╗\n╚═╝");
-            string[] modes = new string[] { "1P vs. PC", "1P vs. 2P" };
-            string type = menu(new string[] { }, "Welcome to Terminal pingpong !!!\n select game modes :\n");
+            string[] modes = new string[] { "Exit","P1 vs. PC", "P1 vs. P2" };
+            string type = menu(modes, "Welcome to Terminal pingpong !!!\n select game modes :\n");
             if (type == modes[0])
-            {
-
-            }
-            else
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            else if (type==modes[1])
             {
 
             }
