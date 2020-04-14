@@ -36,6 +36,16 @@ namespace pingpong
             _player_1 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
             _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
         }
+        static void drawCharacter(consoleCharacter ch)
+        {
+            Console.SetCursorPosition(ch.Left, ch.Top);
+            foreach(char x in ch.Character)
+            {
+                if (x == '\n')
+                    Console.SetCursorPosition(ch.Left, ch.Top + 1);
+                else Console.Write(x);
+            }
+        }
 
 
 
