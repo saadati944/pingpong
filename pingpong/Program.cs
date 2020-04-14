@@ -39,10 +39,14 @@ namespace pingpong
         static void drawCharacter(consoleCharacter ch)
         {
             Console.SetCursorPosition(ch.Left, ch.Top);
+            int i = 0;
             foreach(char x in ch.Character)
             {
                 if (x == '\n')
-                    Console.SetCursorPosition(ch.Left, ch.Top + 1);
+                {
+                    ++i;
+                    Console.SetCursorPosition(ch.Left, ch.Top + i);
+                }
                 else Console.Write(x);
             }
         }
