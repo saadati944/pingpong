@@ -14,6 +14,8 @@ namespace pingpong
         static consoleCharacter _ball;
         static consoleCharacter _player_1;
         static consoleCharacter _player_2;
+        static int player1_score, player2_score;
+        static bool plater1winds = false;
 
         //top left, top right, bottom left, bottom right. ╱╲┗┛┏┓╏╍
         static char[] boxedges ={ '┌', '┐', '└', '┘' };
@@ -39,10 +41,25 @@ namespace pingpong
         }
         static void Draw()
         {
+            doMoves();
+            drawBox();
+            writeMiddleofLine(0, string.Format("< {0} : {1} >", player1_score, player2_score));
+            drawCharacter(_player_1);
+            drawCharacter(_player_2);
+            drawCharacter(_ball);
+            check();
+        }
+        static void check()
+        {
+
+        }
+        static void doMoves()
+        {
 
         }
         static void assignCharacters()
         {
+            int h = Console.WindowHeight, w = Console.WindowWidth;
             _ball = new consoleCharacter(0, 0, "╔═╗\n╚═╝");
             _player_1 = new consoleCharacter(1, 1, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
             _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
