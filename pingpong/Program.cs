@@ -8,10 +8,20 @@ namespace pingpong
 {
     class Program
     {
+        //variables :
+        byte[,] buffer;
+        
+
+
+
         static void Main(string[] args)
         {
-
         }
+
+
+
+
+
         static string menu(string[] items, string title)
         {
             Console.Clear();
