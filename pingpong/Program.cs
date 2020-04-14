@@ -16,6 +16,7 @@ namespace pingpong
         static consoleCharacter _player_2;
         static int player1_score, player2_score;
         static bool plater1winds = false;
+        static int lastw, lasth;
 
         //top left, top right, bottom left, bottom right. ╱╲┗┛┏┓╏╍
         static char[] boxedges ={ '┌', '┐', '└', '┘' };
@@ -35,18 +36,27 @@ namespace pingpong
             else if (type == modes[1])
                 autoMovePlayer2 = true;
 
+            Console.Write("Press any key to start the game.");
+            Console.ReadKey();
             /*drawBox();
             writeMiddleofLine(0, "< 1 : 0 >");
             Console.ReadKey();*/
+
+            for (int i = 0; i < 1000; i++)
+            {
+                Draw();
+                System.Threading.Thread.Sleep(30);
+            }
+            
         }
         static void Draw()
         {
             doMoves();
             drawBox();
             writeMiddleofLine(0, string.Format("< {0} : {1} >", player1_score, player2_score));
-            drawCharacter(_player_1);
-            drawCharacter(_player_2);
-            drawCharacter(_ball);
+            //drawCharacter(_player_1);
+            //drawCharacter(_player_2);
+            //drawCharacter(_ball);
             check();
         }
         static void check()
@@ -80,23 +90,21 @@ namespace pingpong
         }
         static void drawBox()
         {
+            string Box = "";
             int w = Console.WindowWidth, h = Console.WindowHeight;
+            Box += boxedges[0];
+            string bottom= stringMultiply(boxlines[1], w - 2);
+            Box += bottom;
+            Box += boxedges[1];
+
+            string verts = boxlines[0] + stringMultiply(' ', w - 2) + boxlines[0];
+            for (int i = 0; i < h - 2; i++) Box += verts;
+            Box += boxedges[2];
+            Box += bottom;
+            Box += boxedges[3];
             Console.SetCursorPosition(0, 0);
-            Console.Write(boxedges[0]);
-            for (int i = 0; i < w - 2; i++) Console.Write(boxlines[1]);
-            Console.Write(boxedges[1]);
-            for (int i = 1; i < h - 1; i++)
-            {
-                Console.SetCursorPosition(0, i);
-                Console.Write(boxlines[0]);
-                Console.SetCursorPosition(w-1, i);
-                Console.Write(boxlines[0]);
-            }
-            Console.SetCursorPosition(0, h - 1);
-            Console.Write(boxedges[2]);
-            for (int i = 0; i < w - 2; i++) Console.Write(boxlines[1]);
-            Console.Write(boxedges[3]);
-            Console.SetCursorPosition(0, 0);
+            Console.Write(Box);
+
         }
         static void writeMiddleofLine(int line, string text)
         {
@@ -106,6 +114,20 @@ namespace pingpong
             else
                 Console.SetCursorPosition((w-text.Length)/2,line);
             Console.Write(text);
+        }
+        static string stringMultiply(string str, int v)
+        {
+            string output = "";
+            for (int i = 0; i < v; i++)
+                output += str;
+            return output;
+        }
+        static string stringMultiply(char str, int v)
+        {
+            string output = "";
+            for (int i = 0; i < v; i++)
+                output += str;
+            return output;
         }
 
 
