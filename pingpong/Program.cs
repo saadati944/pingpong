@@ -32,8 +32,10 @@ namespace pingpong
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             else if (type == modes[1])
                 autoMovePlayer2 = true;
-            //drawBox();
-            //Console.ReadKey();
+
+            /*drawBox();
+            writeMiddleofLine(0, "< 1 : 0 >");
+            Console.ReadKey();*/
         }
         static void Draw()
         {
@@ -78,6 +80,15 @@ namespace pingpong
             for (int i = 0; i < w - 2; i++) Console.Write(boxlines[1]);
             Console.Write(boxedges[3]);
             Console.SetCursorPosition(0, 0);
+        }
+        static void writeMiddleofLine(int line, string text)
+        {
+            int w = Console.WindowWidth;
+            if (text.Length > w - 2)
+                Console.SetCursorPosition(0, line) ;
+            else
+                Console.SetCursorPosition((w-text.Length)/2,line);
+            Console.Write(text);
         }
 
 
