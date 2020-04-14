@@ -15,6 +15,10 @@ namespace pingpong
         static consoleCharacter _player_1;
         static consoleCharacter _player_2;
 
+        //top left, top right, bottom left, bottom right. ╱╲┗┛┏┓╏╍
+        static char[] boxedges ={ '┌', '┐', '└', '┘' };
+        //vertical, horizontal.
+        static char[] boxlines = { '│', '─' };
 
 
 
@@ -28,7 +32,8 @@ namespace pingpong
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             else if (type == modes[1])
                 autoMovePlayer2 = true;
-            
+            //drawBox();
+            //Console.ReadKey();
         }
         static void Draw()
         {
@@ -37,7 +42,7 @@ namespace pingpong
         static void assignCharacters()
         {
             _ball = new consoleCharacter(0, 0, "╔═╗\n╚═╝");
-            _player_1 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
+            _player_1 = new consoleCharacter(1, 1, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
             _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
         }
         static void drawCharacter(consoleCharacter ch)
@@ -54,7 +59,26 @@ namespace pingpong
                 else Console.Write(x);
             }
         }
-        
+        static void drawBox()
+        {
+            int w = Console.WindowWidth, h = Console.WindowHeight;
+            Console.SetCursorPosition(0, 0);
+            Console.Write(boxedges[0]);
+            for (int i = 0; i < w - 2; i++) Console.Write(boxlines[1]);
+            Console.Write(boxedges[1]);
+            for (int i = 1; i < h - 1; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.Write(boxlines[0]);
+                Console.SetCursorPosition(w-1, i);
+                Console.Write(boxlines[0]);
+            }
+            Console.SetCursorPosition(0, h - 1);
+            Console.Write(boxedges[2]);
+            for (int i = 0; i < w - 2; i++) Console.Write(boxlines[1]);
+            Console.Write(boxedges[3]);
+            Console.SetCursorPosition(0, 0);
+        }
 
 
 
