@@ -10,6 +10,7 @@ namespace pingpong
     {
         //variables :
         static bool autoMovePlayer2 = false;
+        static bool game_started = false;
         static consoleCharacter _ball;
         static consoleCharacter _player_1;
         static consoleCharacter _player_2;
@@ -28,6 +29,10 @@ namespace pingpong
             else if (type == modes[1])
                 autoMovePlayer2 = true;
             
+        }
+        static void Draw()
+        {
+
         }
         static void assignCharacters()
         {
@@ -49,6 +54,7 @@ namespace pingpong
                 else Console.Write(x);
             }
         }
+        
 
 
 
