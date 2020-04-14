@@ -79,4 +79,15 @@ namespace pingpong
             return s;
         }
     }
+    public class consoleCharacter
+    {
+        public int Top, Left;
+        public string Character;
+        public consoleCharacter(int top,int left,string character)
+        {
+            Top = top;
+            Left = left;
+            Character = character;
+        }
+    }
 }
