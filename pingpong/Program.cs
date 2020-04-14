@@ -32,8 +32,9 @@ namespace pingpong
         }
         static void assignCharacters()
         {
-            _ball = new consoleCharacter(5, 5, "╔═╗\n╚═╝");
-
+            _ball = new consoleCharacter(0, 0, "╔═╗\n╚═╝");
+            _player_1 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
+            _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
         }
 
 
