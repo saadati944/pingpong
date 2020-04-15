@@ -62,16 +62,43 @@ namespace pingpong
             if (lasth != Console.WindowHeight || lastw != Console.WindowWidth)
             {
                 drawBox();
-                drawScoreboard(true) ;
+                drawScoreboard(true);
                 lasth = Console.WindowHeight; lastw = Console.WindowWidth;
-            }
-            drawScoreboard();
 
+                //TODO : add scaleup function.
+
+                clearCharacter(_player_1_last);
+                drawCharacter(_player_1);
+                _player_1_last = _player_1;
+                clearCharacter(_player_2_last);
+                drawCharacter(_player_2);
+                _player_2_last = _player_2;
+                clearCharacter(_ball_last);
+                drawCharacter(_ball);
+                _ball_last = _ball;
+            }
+            else
+            {
+                drawScoreboard();
+                if (_player_1 != _player_1_last)
+                {
+                    clearCharacter(_player_1_last);
+                    drawCharacter(_player_1);
+                    _player_1_last = _player_1;
+                }
+                if (_player_2 != _player_2_last)
+                {
+                    clearCharacter(_player_2_last);
+                    drawCharacter(_player_2);
+                    _player_2_last = _player_2;
+                }
+                clearCharacter(_ball_last);
+                drawCharacter(_ball);
+                _ball_last = _ball;
+            }
             //drawCharacter(_player_1);
             //drawCharacter(_player_2);
             //drawCharacter(_ball);
-            _player_1_last = _player_1;
-            _player_2_last = _player_2;
             check();
         }
         
@@ -106,6 +133,9 @@ namespace pingpong
             _ball = new consoleCharacter(0, 0, "╔═╗\n╚═╝");
             _player_1 = new consoleCharacter(1, 1, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
             _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
+            _ball_last = new consoleCharacter(0, 0, "");
+            _player_1_last = new consoleCharacter(0, 0, "");
+            _player_2_last = new consoleCharacter(0, 0, "");
         }
         static void drawScoreboard(bool forceWrite=false)
         {
