@@ -22,7 +22,7 @@ namespace pingpong
         static bool plater1winds = false;
         static int lastw, lasth;
         static int last_scoreLength;
-
+        static string ball_char = "╔═╗\n╚═╝", player_1_char = "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝", player_2_char = "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝";
         //top left, top right, bottom left, bottom right. ╱╲┗┛┏┓╏╍
         static char[] boxedges ={ '┌', '┐', '└', '┘' };
         //vertical, horizontal.
@@ -33,7 +33,6 @@ namespace pingpong
 
         static void Main(string[] args)
         {
-            assignCharacters();
             string[] modes = new string[] { "Exit","P1 vs. PC", "P1 vs. P2" };
             string type = menu(modes, "Welcome to Terminal pingpong !!!\n select game modes :\n");
             if (type == modes[0])
@@ -46,17 +45,18 @@ namespace pingpong
             /*drawBox();
             writeMiddleofLine(0, "< 1 : 0 >");
             Console.ReadKey();*/
+            assignCharacters();
             Draw(true);
             for (int i = 0; i < 1000; i++)
-             {
+            {
                  Draw();
                  System.Threading.Thread.Sleep(30);
                  player1_score = i / 20;
                  player2_score = i / 15;
                 _player_1.Top = i % 25 + 1;
                 _player_2.Top = i % 25 + 1;
-                _ball.Top = i % 22 + 2;
-                _ball.Left = i % 22 + 2;
+                _ball.Top = i % 15 + 2;
+                _ball.Left = i % 15 + 2;
             }
             lasth = Console.WindowHeight; lastw = Console.WindowWidth;
         }
@@ -77,9 +77,9 @@ namespace pingpong
                 drawBox();
                 drawScoreboard(true);
 
-                scaleup(_ball, _ball_last);
-                scaleup(_player_1, _player_1_last);
-                scaleup(_player_2, _player_2_last);
+                scaleup(_ball);
+                scaleup(_player_1);
+                scaleup(_player_2);
 
                 lasth = Console.WindowHeight; lastw = Console.WindowWidth;
                 clearCharacter(_player_1_last);
@@ -142,17 +142,39 @@ namespace pingpong
                 }
             }
         }
-        static void scaleup(consoleCharacter ch, consoleCharacter lastch)
+        static void scaleup(consoleCharacter ch)
         {
-            ch.Top = lastch.Top / lasth * Console.WindowHeight;
-            ch.Left = lastch.Left / lastw * Console.WindowWidth;
+            int h = Console.WindowHeight, w = Console.WindowWidth;
+            if (ch.Character == ball_char)
+            {
+                ch.Top = (int)((float)ch.Top / (float)lasth * (float)Console.WindowHeight);
+                ch.Left = (int)((float)ch.Left / (float)lastw * (float)Console.WindowWidth);
+                if (ch.Top < 1)
+                    ch.Top = 1;
+                else if (ch.Top > h - 3)
+                    ch.Top = 3;
+                if (ch.Left < 3)
+                    ch.Left = 3;
+                else if (ch.Left > w - 7)
+                    ch.Left = w - 7;
+            }
+            else
+            {
+                if (ch.Left != 1)
+                    ch.Left = w - 3 ;
+                ch.Top = (int)((float)ch.Top / (float)lasth * (float)h);
+                if (ch.Top < 1)
+                    ch.Top = 0;
+                else if (ch.Top > h - 3)
+                    ch.Top = h - 3;
+            }
         }
         static void assignCharacters()
         {
             int h = Console.WindowHeight, w = Console.WindowWidth;
-            _ball = new consoleCharacter(0, 0, "╔═╗\n╚═╝");
-            _player_1 = new consoleCharacter(1, 1, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
-            _player_2 = new consoleCharacter(0, 0, "╔╗\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╠╣\n╚╝");
+            _ball = new consoleCharacter(0, 0,ball_char);
+            _player_1 = new consoleCharacter(1, 1, player_1_char);
+            _player_2 = new consoleCharacter(2, w-3,player_2_char);
             _ball_last = new consoleCharacter(0, 0, "");
             _player_1_last = new consoleCharacter(0, 0, "");
             _player_2_last = new consoleCharacter(0, 0, "");
@@ -195,6 +217,8 @@ namespace pingpong
         }
         static void clearCharacter(consoleCharacter ch)
         {
+            if (ch.Left >= Console.WindowWidth || ch.Top >= Console.WindowHeight)
+                return;
             Console.SetCursorPosition(ch.Left, ch.Top);
             int i = 0;
             foreach (char x in ch.Character)
