@@ -14,6 +14,9 @@ namespace pingpong
         static consoleCharacter _ball;
         static consoleCharacter _player_1;
         static consoleCharacter _player_2;
+        static consoleCharacter _ball_last;
+        static consoleCharacter _player_1_last;
+        static consoleCharacter _player_2_last;
         static int player1_score, player2_score;
         static int Last_player1_score, Last_player2_score;
         static bool plater1winds = false;
@@ -45,12 +48,12 @@ namespace pingpong
             Console.ReadKey();*/
 
             for (int i = 0; i < 1000; i++)
-            {
-                Draw();
-                System.Threading.Thread.Sleep(30);
-                player1_score = i / 20;
-                player2_score = i / 15;
-            }
+             {
+                 Draw();
+                 System.Threading.Thread.Sleep(30);
+                 player1_score = i / 20;
+                 player2_score = i / 15;
+             }
             lasth = Console.WindowHeight; lastw = Console.WindowWidth;
         }
         static void Draw()
@@ -63,9 +66,12 @@ namespace pingpong
                 lasth = Console.WindowHeight; lastw = Console.WindowWidth;
             }
             drawScoreboard();
+
             //drawCharacter(_player_1);
             //drawCharacter(_player_2);
             //drawCharacter(_ball);
+            _player_1_last = _player_1;
+            _player_2_last = _player_2;
             check();
         }
         
@@ -75,7 +81,24 @@ namespace pingpong
         }
         static void doMoves()
         {
-
+            while (Console.KeyAvailable)
+            {
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        break;
+                    case ConsoleKey.DownArrow:
+                        break;
+                    case ConsoleKey.W:
+                        break;
+                    case ConsoleKey.S:
+                        break;
+                    case ConsoleKey.Escape:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         static void assignCharacters()
         {
@@ -110,7 +133,7 @@ namespace pingpong
         {
             Console.SetCursorPosition(ch.Left, ch.Top);
             int i = 0;
-            foreach(char x in ch.Character)
+            foreach (char x in ch.Character)
             {
                 if (x == '\n')
                 {
@@ -118,6 +141,20 @@ namespace pingpong
                     Console.SetCursorPosition(ch.Left, ch.Top + i);
                 }
                 else Console.Write(x);
+            }
+        }
+        static void clearCharacter(consoleCharacter ch)
+        {
+            Console.SetCursorPosition(ch.Left, ch.Top);
+            int i = 0;
+            foreach (char x in ch.Character)
+            {
+                if (x == '\n')
+                {
+                    ++i;
+                    Console.SetCursorPosition(ch.Left, ch.Top + i);
+                }
+                else Console.Write(' ');
             }
         }
         static void drawBox()
