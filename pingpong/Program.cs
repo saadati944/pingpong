@@ -46,55 +46,70 @@ namespace pingpong
             /*drawBox();
             writeMiddleofLine(0, "< 1 : 0 >");
             Console.ReadKey();*/
-
+            Draw(true);
             for (int i = 0; i < 1000; i++)
              {
                  Draw();
                  System.Threading.Thread.Sleep(30);
                  player1_score = i / 20;
                  player2_score = i / 15;
-             }
+                _player_1.Top = i % 25 + 1;
+                _player_2.Top = i % 25 + 1;
+                _ball.Top = i % 22 + 2;
+                _ball.Left = i % 22 + 2;
+            }
             lasth = Console.WindowHeight; lastw = Console.WindowWidth;
         }
-        static void Draw()
+        static void Draw(bool first=false)
         {
+            if(first)
+            {
+                drawBox();
+                drawScoreboard(true);
+                lasth = Console.WindowHeight; lastw = Console.WindowWidth;
+                drawCharacter(_player_1);
+                drawCharacter(_player_2);
+                drawCharacter(_ball);
+            }
             doMoves();
             if (lasth != Console.WindowHeight || lastw != Console.WindowWidth)
             {
                 drawBox();
                 drawScoreboard(true);
+
+                scaleup(_ball, _ball_last);
+                scaleup(_player_1, _player_1_last);
+                scaleup(_player_2, _player_2_last);
+
                 lasth = Console.WindowHeight; lastw = Console.WindowWidth;
-
-                //TODO : add scaleup function.
-
                 clearCharacter(_player_1_last);
                 drawCharacter(_player_1);
-                _player_1_last = _player_1;
+                _player_1_last = _player_1.copy();
                 clearCharacter(_player_2_last);
                 drawCharacter(_player_2);
-                _player_2_last = _player_2;
+                _player_2_last = _player_2.copy();
                 clearCharacter(_ball_last);
                 drawCharacter(_ball);
-                _ball_last = _ball;
+                _ball_last = _ball.copy();
             }
             else
             {
                 drawScoreboard();
-                if (_player_1 != _player_1_last)
+                if (!_player_1 .equals( _player_1_last))
                 {
                     clearCharacter(_player_1_last);
                     drawCharacter(_player_1);
-                    _player_1_last = _player_1;
+                    _player_1_last = _player_1.copy();
                 }
-                if (_player_2 != _player_2_last)
+                if (!_player_2 .equals (_player_2_last))
                 {
                     clearCharacter(_player_2_last);
                     drawCharacter(_player_2);
-                    _player_2_last = _player_2;
+                    _player_2_last = _player_2.copy();
                 }
                 clearCharacter(_ball_last);
                 drawCharacter(_ball);
-                _ball_last = _ball;
+                _ball_last = _ball.copy();
             }
             //drawCharacter(_player_1);
             //drawCharacter(_player_2);
@@ -126,6 +141,11 @@ namespace pingpong
                         break;
                 }
             }
+        }
+        static void scaleup(consoleCharacter ch, consoleCharacter lastch)
+        {
+            ch.Top = lastch.Top / lasth * Console.WindowHeight;
+            ch.Left = lastch.Left / lastw * Console.WindowWidth;
         }
         static void assignCharacters()
         {
@@ -299,6 +319,14 @@ namespace pingpong
             Top = top;
             Left = left;
             Character = character;
+        }
+        public consoleCharacter copy()
+        {
+            return new consoleCharacter(Top, Left, Character);
+        }
+        public bool equals(consoleCharacter v)
+        {
+            return v.Top == Top && v.Left == Left && v.Character == Character;
         }
     }
 }
