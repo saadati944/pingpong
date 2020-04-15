@@ -91,8 +91,6 @@ namespace pingpong
                 string lscoreBoard = string.Format("< {0} : {1} >", player1_score, player2_score);
                 Last_player1_score = player1_score;
                 Last_player2_score = player2_score;
-                if (lscoreBoard.Length != last_scoreLength)
-                    writeMiddleofLine(0, stringMultiply(boxlines[1], last_scoreLength));
                 writeMiddleofLine(0, lscoreBoard);
                 last_scoreLength = lscoreBoard.Length;
                 return;
